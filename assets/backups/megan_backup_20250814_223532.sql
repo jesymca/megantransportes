@@ -62,7 +62,7 @@ CREATE TABLE `categorias` (
   `fecha_creacion` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,4 +215,8 @@ commit;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
+<<<<<<<< HEAD:assets/backups/megan_backup_20250814_223532.sql
 -- Dump completed on 2025-08-14 18:35:32
+========
+-- Dump completed on 2025-08-14 14:07:28
+>>>>>>>> da31618d265434b47f2ac86674801e9f1e5b126d:assets/backups/megan_backup_20250814_180728.sql
