@@ -1,6 +1,5 @@
 <?php
-session_start();
-
+//session_start();
 // Lista de páginas que NO requieren autenticación (ej: login, recuperar contraseña)
 $paginas_publicas = [
     '/megantransportes/login/index.php',
