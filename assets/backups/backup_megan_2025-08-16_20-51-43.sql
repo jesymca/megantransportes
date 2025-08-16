@@ -1,3 +1,4 @@
+/usr/bin/mysqldump: Deprecated program name. It will be removed in a future release, use '/usr/bin/mariadb-dump' instead
 /*M!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19-11.8.2-MariaDB, for Linux (x86_64)
 --
@@ -62,7 +63,7 @@ CREATE TABLE `categorias` (
   `fecha_creacion` timestamp NULL DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -73,7 +74,7 @@ LOCK TABLES `categorias` WRITE;
 /*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
 set autocommit=0;
 INSERT INTO `categorias` VALUES
-(1,'Repuestos','2025-05-26 16:08:27'),
+(1,'Tripas','2025-05-26 16:08:27'),
 (2,'Lubricantes','2025-05-26 16:08:27'),
 (3,'Herramientas','2025-05-26 16:08:27'),
 (4,'Neumáticos','2025-05-26 16:08:27'),
@@ -122,6 +123,40 @@ INSERT INTO `inventario` VALUES
 (7,'Correa 22¨',1,2,'Correa de 22 Pulgadas','2025-05-26 16:16:58'),
 (8,'Correa 22¨',1,9,'Correa de 22 Pulgadas','2025-05-29 20:17:51');
 /*!40000 ALTER TABLE `inventario` ENABLE KEYS */;
+UNLOCK TABLES;
+commit;
+
+--
+-- Table structure for table `proveedores`
+--
+
+DROP TABLE IF EXISTS `proveedores`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `proveedores` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `rif` varchar(20) NOT NULL,
+  `nombre` varchar(200) NOT NULL,
+  `direccion` varchar(500) NOT NULL,
+  `tlf` varchar(20) NOT NULL,
+  `correo` varchar(100) NOT NULL,
+  `web` varchar(100) NOT NULL,
+  `social` varchar(100) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `proveedores`
+--
+
+LOCK TABLES `proveedores` WRITE;
+/*!40000 ALTER TABLE `proveedores` DISABLE KEYS */;
+set autocommit=0;
+INSERT INTO `proveedores` VALUES
+(1,'J-2020202202','Cauchos C.A.','Puerto Cabello','024211111111','prueba@cauchos.com','www.cauchos.com','cauchos','2025-08-16 20:25:03');
+/*!40000 ALTER TABLE `proveedores` ENABLE KEYS */;
 UNLOCK TABLES;
 commit;
 
@@ -215,8 +250,4 @@ commit;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
-<<<<<<<< HEAD:assets/backups/megan_backup_20250814_223532.sql
--- Dump completed on 2025-08-14 18:35:32
-========
--- Dump completed on 2025-08-14 14:07:28
->>>>>>>> da31618d265434b47f2ac86674801e9f1e5b126d:assets/backups/megan_backup_20250814_180728.sql
+-- Dump completed on 2025-08-16 16:51:43
