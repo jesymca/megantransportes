@@ -142,7 +142,8 @@ try {
                       <td>" . htmlspecialchars($row['email']) . "</td>
                       <td>" . htmlspecialchars(ucfirst($row['rol'])) . "</td>";
         } elseif ($tipo_reporte == 'proveedores') {
-            $html .= "<td>" . htmlspecialchars($row['nombre']) . "</td>
+            $html .= "<td>" . htmlspecialchars($row['rif']) . "</td>
+                      <td>" . htmlspecialchars($row['nombre']) . "</td>
                       <td>" . htmlspecialchars($row['tlf']) . "</td>
                       <td>" . htmlspecialchars($row['correo']) . "</td>
                       <td>" . htmlspecialchars($row['direccion']) . "</td>";
