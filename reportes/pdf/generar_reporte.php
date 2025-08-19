@@ -18,11 +18,9 @@ try {
     // Consulta según el tipo de reporte
     switch ($tipo_reporte) {
         case 'inventario':
-            // Modificado para usar JOIN con la tabla categorias
             $sql = "SELECT i.*, c.nombre as categoria_nombre 
                     FROM inventario i
                     LEFT JOIN categorias c ON i.categoria_id = c.id";
-            
             if ($categoria_id != 'todas') {
                 $sql .= " WHERE i.categoria_id = ?";
                 $stmt = $conn->prepare($sql);
@@ -34,13 +32,11 @@ try {
             break;
 
         case 'salidas':
-            // Modificado para incluir el nombre de la categoría
             $sql = "SELECT s.*, i.nombre as item, u.nombre as tecnico, c.nombre as categoria_nombre
                     FROM salidas_inventario s
                     JOIN inventario i ON s.id_item = i.id
                     JOIN usuarios u ON s.id_usuario = u.id
                     LEFT JOIN categorias c ON i.categoria_id = c.id";
-            
             if ($fecha_inicio && $fecha_fin) {
                 $sql .= " WHERE DATE(s.fecha_salida) BETWEEN ? AND ?";
                 $stmt = $conn->prepare($sql);
@@ -55,6 +51,12 @@ try {
             $sql = "SELECT * FROM usuarios";
             $stmt = $conn->prepare($sql);
             $titulo = "Reporte de Usuarios";
+            break;
+
+        case 'proveedores':
+            $sql = "SELECT nombre, rif, tlf, correo, direccion FROM proveedores ORDER BY nombre ASC";
+            $stmt = $conn->prepare($sql);
+            $titulo = "Lista de Proveedores";
             break;
 
         default:
@@ -88,7 +90,6 @@ try {
 
     // Mostrar filtros aplicados solo si son relevantes
     if (($tipo_reporte == 'inventario' || $tipo_reporte == 'salidas') && $categoria_id != 'todas') {
-        // Obtener nombre de la categoría para mostrar en el filtro
         $sql_cat = "SELECT nombre FROM categorias WHERE id = ?";
         $stmt_cat = $conn->prepare($sql_cat);
         $stmt_cat->bind_param("i", $categoria_id);
@@ -96,10 +97,8 @@ try {
         $cat_result = $stmt_cat->get_result();
         $cat_row = $cat_result->fetch_assoc();
         $categoria_nombre = $cat_row['nombre'] ?? 'Desconocida';
-        
         $html .= "<p><strong>Categoría:</strong> " . htmlspecialchars(ucfirst($categoria_nombre)) . "</p>";
     }
-    
     if ($tipo_reporte == 'salidas' && $fecha_inicio && $fecha_fin) {
         $html .= "<p><strong>Rango de fechas:</strong> " . htmlspecialchars($fecha_inicio) . " al " . htmlspecialchars($fecha_fin) . "</p>";
     }
@@ -114,8 +113,10 @@ try {
         $html .= "<th>Nombre</th><th>Categoría</th><th>Cantidad</th>";
     } elseif ($tipo_reporte == 'salidas') {
         $html .= "<th>Item</th><th>Categoría</th><th>Técnico</th><th>Cantidad</th><th>Fecha</th>";
-    } else {
+    } elseif ($tipo_reporte == 'usuarios') {
         $html .= "<th>Nombre</th><th>Email</th><th>Rol</th>";
+    } elseif ($tipo_reporte == 'proveedores') {
+        $html .= "<th>Rif</th><th>Nombre</th><th>Teléfono</th><th>Email</th><th>Dirección</th>";
     }
 
     $html .= "
@@ -136,10 +137,15 @@ try {
                       <td>" . htmlspecialchars($row['tecnico']) . "</td>
                       <td>" . htmlspecialchars($row['cantidad']) . "</td>
                       <td>" . htmlspecialchars($row['fecha_salida']) . "</td>";
-        } else {
+        } elseif ($tipo_reporte == 'usuarios') {
             $html .= "<td>" . htmlspecialchars($row['nombre']) . "</td>
                       <td>" . htmlspecialchars($row['email']) . "</td>
                       <td>" . htmlspecialchars(ucfirst($row['rol'])) . "</td>";
+        } elseif ($tipo_reporte == 'proveedores') {
+            $html .= "<td>" . htmlspecialchars($row['nombre']) . "</td>
+                      <td>" . htmlspecialchars($row['tlf']) . "</td>
+                      <td>" . htmlspecialchars($row['correo']) . "</td>
+                      <td>" . htmlspecialchars($row['direccion']) . "</td>";
         }
         $html .= "</tr>";
     }
@@ -158,8 +164,6 @@ try {
     $dompdf = new Dompdf();
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'portrait');
-    
-    // Renderizar PDF
     $dompdf->render();
 
     // Descargar PDF automáticamente
@@ -169,6 +173,6 @@ try {
 
 } catch (Exception $e) {
     error_log("Error al generar PDF: " . $e->getMessage());
-    die("Ocurrió un error al generar el reporte. Por favor, intente nuevamente.");
+  die("Ocurrió un error al generar el reporte: " . $e->getMessage());
 }
 ?>

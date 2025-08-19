@@ -31,17 +31,20 @@ if ($result_categorias && $result_categorias->num_rows > 0) {
                             </label>
                             <div class="input-group">
                                 <span class="input-group-text"><i class="bi bi-filter"></i></span>
-                                <select name="tipo_reporte" id="tipoReporte" class="form-select" required>
-                                    <option value="inventario">
-                                        <i class="bi bi-box-seam me-1"></i>Inventario Actual
-                                    </option>
-                                    <option value="salidas">
-                                        <i class="bi bi-box-arrow-up me-1"></i>Salidas de Inventario
-                                    </option>
-                                    <option value="usuarios">
-                                        <i class="bi bi-people me-1"></i>Usuarios Registrados
-                                    </option>
-                                </select>
+<select name="tipo_reporte" id="tipoReporte" class="form-select" required>
+    <option value="inventario">
+        <i class="bi bi-box-seam me-1"></i>Inventario Actual
+    </option>
+    <option value="salidas">
+        <i class="bi bi-box-arrow-up me-1"></i>Salidas de Inventario
+    </option>
+    <option value="usuarios">
+        <i class="bi bi-people me-1"></i>Usuarios Registrados
+    </option>
+    <option value="proveedores">
+        <i class="bi bi-truck me-1"></i>Lista de Proveedores
+    </option>
+</select>
                             </div>
                         </div>
                         <div class="col-md-6 mb-3" id="categoriaContainer">
