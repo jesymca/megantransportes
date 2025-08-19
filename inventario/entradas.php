@@ -57,6 +57,16 @@ if ($result_categorias && $result_categorias->num_rows > 0) {
         $categorias_disponibles[] = $row_cat;
     }
 }
+
+
+$proveedores_disponibles = [];
+$sql_get_proveedores = "SELECT id, nombre FROM proveedores ORDER BY nombre ASC";
+$result_proveedores = $conn->query($sql_get_proveedores);
+if ($result_proveedores && $result_proveedores->num_rows > 0) {
+    while ($row_prov = $result_proveedores->fetch_assoc()) {
+        $proveedores_disponibles[] = $row_prov;
+    }
+}
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -112,7 +122,33 @@ if ($result_categorias && $result_categorias->num_rows > 0) {
                                 </select>
                             </div>
                         </div>
-                    </div>
+
+
+
+
+<div class="col-md-6 mb-3">
+    <label for="proveedor_id" class="form-label">
+        <i class="bi bi-truck me-1"></i>Proveedor
+    </label>
+    <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+        <select name="proveedor_id" id="proveedor_id" class="form-select" required>
+            <option value="">Seleccione un proveedor</option>
+            <?php if (!empty($proveedores_disponibles)): ?>
+                <?php foreach ($proveedores_disponibles as $proveedor_item): ?>
+                    <option value="<?php echo htmlspecialchars($proveedor_item['id']); ?>"
+                        <?php echo (isset($proveedor_id) && $proveedor_id == $proveedor_item['id']) ? 'selected' : ''; ?>>
+                        <?php echo htmlspecialchars($proveedor_item['nombre']); ?>
+                    </option>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <option value="" disabled>No hay proveedores disponibles</option>
+            <?php endif; ?>
+        </select>
+    </div>
+</div>
+
+</div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label">

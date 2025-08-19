@@ -25,23 +25,28 @@
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-box-seam me-1"></i> Inventarios
                     </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="dropdown-item" href="/megantransportes/inventario/entradas.php">
-                                <i class="bi bi-box-arrow-in-down me-2"></i> Entradas
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/megantransportes/inventario/salidas.php">
-                                <i class="bi bi-box-arrow-up me-2"></i> Salidas
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="/megantransportes/inventario/gestionar_categorias.php">
-                                <i class="bi bi-tags me-2"></i> Categorías
-                            </a>
-                        </li>
-                    </ul>
+                  <ul class="dropdown-menu">
+    <li>
+        <a class="dropdown-item" href="/megantransportes/inventario/entradas.php">
+            <i class="bi bi-box-arrow-in-down me-2"></i> Entradas
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="/megantransportes/inventario/salidas.php">
+            <i class="bi bi-box-arrow-up me-2"></i> Salidas
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="/megantransportes/inventario/gestionar_categorias.php">
+            <i class="bi bi-tags me-2"></i> Categorías
+        </a>
+    </li>
+    <li>
+        <a class="dropdown-item" href="/megantransportes/inventario/proveedores.php">
+            <i class="bi bi-truck me-2"></i> Proveedores
+        </a>
+    </li>
+</ul>
                 </li>
 
                 <li class="nav-item">
