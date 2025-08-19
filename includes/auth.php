@@ -1,9 +1,5 @@
 <?php
 //session_start();
-<<<<<<< HEAD
-
-=======
->>>>>>> bd0abd8d0c13c18fa75983dd0b92d63579dbc92a
 // Lista de páginas que NO requieren autenticación (ej: login, recuperar contraseña)
 $paginas_publicas = [
     '/megantransportes/login/index.php',
