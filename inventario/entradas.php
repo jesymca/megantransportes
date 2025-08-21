@@ -10,12 +10,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $categoria_id = filter_input(INPUT_POST, 'categoria_id', FILTER_VALIDATE_INT);
     $cantidad = filter_input(INPUT_POST, 'cantidad', FILTER_VALIDATE_INT);
     $descripcion = trim($_POST['descripcion']);
+    $proveedor_id = filter_input(INPUT_POST, 'proveedor_id', FILTER_VALIDATE_INT);
 
     // Validaciones
     if (empty($nombre)) {
         $error = "Por favor, ingrese un nombre válido para el item.";
     } elseif ($categoria_id === false || $categoria_id === null) {
         $error = "Por favor, seleccione una categoría válida.";
+    } elseif ($proveedor_id === false || $proveedor_id === null) {
+        $error = "Por favor, seleccione un proveedor válido.";
+
     } elseif ($cantidad === false || $cantidad === null || $cantidad <= 0) {
         $error = "Por favor, ingrese una cantidad válida (mayor que 0).";
     } else {
@@ -27,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $check_result = $check_stmt->get_result();
 
         if ($check_result->num_rows == 1) {
-            $sql = "INSERT INTO inventario (nombre, categoria_id, cantidad, descripcion) 
-                    VALUES (?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("siis", $nombre, $categoria_id, $cantidad, $descripcion);
+        $sql = "INSERT INTO inventario (nombre, categoria_id, proveedor_id, cantidad, descripcion) 
+                VALUES (?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("siiis", $nombre, $categoria_id, $proveedor_id, $cantidad, $descripcion);
 
             if ($stmt->execute()) {
                 $exito = "¡Item registrado en el inventario correctamente!";
@@ -198,6 +202,7 @@ if ($result_proveedores && $result_proveedores->num_rows > 0) {
                                 <th><i class="bi bi-hash me-1"></i>ID</th>
                                 <th><i class="bi bi-tag me-1"></i>Nombre</th>
                                 <th><i class="bi bi-bookmark me-1"></i>Categoría</th>
+                                <th><i class="bi bi-truck me-1"></i>Proveedor</th>
                                 <th><i class="bi bi-box-seam me-1"></i>Cantidad</th>
                                 <th><i class="bi bi-card-text me-1"></i>Descripción</th>
                                 <th><i class="bi bi-calendar-event me-1"></i>Fecha Ingreso</th>
@@ -205,10 +210,11 @@ if ($result_proveedores && $result_proveedores->num_rows > 0) {
                         </thead>
                         <tbody>
                             <?php
-                            $sql = "SELECT i.*, c.nombre as categoria_nombre 
-                                    FROM inventario i
-                                    LEFT JOIN categorias c ON i.categoria_id = c.id
-                                    ORDER BY i.fecha_ingreso DESC";
+                                $sql = "SELECT i.*, c.nombre as categoria_nombre, p.nombre as proveedor_nombre
+                                FROM inventario i
+                                LEFT JOIN categorias c ON i.categoria_id = c.id
+                                LEFT JOIN proveedores p ON i.proveedor_id = p.id
+                                ORDER BY i.fecha_ingreso DESC";
                             $result = $conn->query($sql);
                             
                             if ($result && $result->num_rows > 0) {
@@ -217,6 +223,7 @@ if ($result_proveedores && $result_proveedores->num_rows > 0) {
                                             <td>".$row['id']."</td>
                                             <td>".htmlspecialchars($row['nombre'])."</td>
                                             <td>".htmlspecialchars($row['categoria_nombre'] ?? 'Sin categoría')."</td>
+                                            <td>".htmlspecialchars($row['proveedor_nombre'] ?? 'Sin proveedor')."</td>
                                             <td>
                                                 <span class='badge bg-".($row['cantidad'] < 3 ? 'danger' : 'primary')."'>
                                                     ".$row['cantidad']."
